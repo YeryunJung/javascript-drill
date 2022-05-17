@@ -1,0 +1,52 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>숫자야구</title>
+</head>
+<body>
+<form id="form">
+  <input type="text" id="input">
+  <button>확인</button>
+</form>
+<div id="logs"></div>
+<script>
+  const $input = document.querySelector('#input');
+  const $form = document.querySelector('#form');
+  const $logs = document.querySelector('#logs');
+
+  const numbers = []; // 1~9 숫자의 배열
+  for (let n = 0; n < 9; n += 1) {
+    numbers.push(n + 1);
+  }
+
+  const answer = [];
+  for (let n = 0; n <= 3; n += 1) { // 네 번 반복
+    const index = Math.floor(Math.random() * numbers.length); // numbers 길이에 따라
+    answer.push(numbers[index]); // numbers에서 4개의 수 가져오기
+    numbers.splice(index, 1); // numbers에서 빠진 수 제거
+  }
+  console.log(answer);
+
+  const tries = [];
+  function checkInput(input) {
+    if (input.length !== 4) { // 길이가 4가 아니라면
+      return alert('4자리 숫자를 입력해 주세요.');
+      // return false;
+    }
+    if (new Set(input).size !== 4) { // 중복된 숫자가 있는가
+      return alert('중복되지 않게 입력해 주세요.');
+    }
+    if (tries.includes(input)) { // 이미 시도한 값은 아닌가
+      return alert('이미 시도한 값입니다.');
+    }
+    return true;
+  }
+  $form.addEventListener('submit', (event) => { // 폼 태그 제출했을 시
+    event.prevetnDefault(); // 폼 태그의 기본동작(새로고침) 취소
+    const value = $input.value; // 문자열로 입력한 값
+    $input.value = ''; // 다음 시도를 위해 빈 값 지정
+    const valid = checkoutInput(value); // 함수로 검증
+  });
+</script>
+</body>
+</html>
